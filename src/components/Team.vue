@@ -54,7 +54,7 @@ export default {
     },
     methods: {
            getTeams() {
-      this.axios.get("http://localhost:3000/team").then((res) => {
+      this.axios.get("https://polybuckz-api.herokuapp.com/team").then((res) => {
         if (res.status == 200) {
           this.team = res.data;
         }
