@@ -198,7 +198,7 @@ export default {
   },
   methods: {
     getImages() {
-      this.axios.get("http://localhost:8090/gallery").then((res) => {
+      this.axios.get("https://polybuckz-api.herokuapp.com/gallery").then((res) => {
         if (res.status == 200) {
           this.items = res.data;
         }
@@ -206,7 +206,7 @@ export default {
     },
     postImages() {
       this.axios
-        .post("http://localhost:8090/gallery", this.info)
+        .post("https://polybuckz-api.herokuapp.com/gallery", this.info)
         .then((res) => {
           if (res.status == 201) {
             this.items.push(res.data);
@@ -225,7 +225,7 @@ export default {
     remove(id) {
       var col = confirm("Do you wish to delete?");
       if (col) {
-        this.axios.delete(`http://localhost:8090/gallery/${id}`).then((res) => {
+        this.axios.delete(`https://polybuckz-api.herokuapp.com/gallery/${id}`).then((res) => {
           if (res.status == 200) {
             this.getImages();
           }
@@ -234,7 +234,7 @@ export default {
     },
 
     getTeams() {
-      this.axios.get("http://localhost:8090/team").then((res) => {
+      this.axios.get("https://polybuckz-api.herokuapp.com/team").then((res) => {
         if (res.status == 200) {
           this.teams = res.data;
         }
@@ -242,7 +242,7 @@ export default {
     },
     postTeam() {
       this.axios
-        .post("http://localhost:8090/team", this.teamInfo)
+        .post("https://polybuckz-api.herokuapp.com/team", this.teamInfo)
         .then((res) => {
           if (res.status == 201) {
             this.teams.push(res.data);
@@ -260,7 +260,7 @@ export default {
     removeTeam(id) {
       var col = confirm("Do you wish to delete?");
       if (col) {
-        this.axios.delete(`http://localhost:8090/team/${id}`).then((res) => {
+        this.axios.delete(`https://polybuckz-api.herokuapp.com/team/${id}`).then((res) => {
           if (res.status == 200) {
             this.getTeams();
           }

@@ -62,14 +62,14 @@ export default {
       this.$bvModal.show('overview')
     },
      getImages() {
-      this.axios.get("http://localhost:8090/gallery").then((res) => {
+      this.axios.get("https://polybuckz-api.herokuapp.com/gallery").then((res) => {
         if (res.status == 200) {
           this.items = res.data;
         }
       });
     },
      getImage(id) {
-      this.axios.get(`http://localhost:8090/gallery/${id}`).then((res) => {
+      this.axios.get(`https://polybuckz-api.herokuapp.com/gallery/${id}`).then((res) => {
         if (res.status == 200) {
           this.item = res.data;
         }
