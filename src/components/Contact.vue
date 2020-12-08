@@ -74,7 +74,7 @@ export default {
     methods: {
         sendmail(){
             this.show = true
-            this.axios.post('https://polybuckz-api.herokuapp.com/sendmail',this.contact).then(res=>{
+            this.axios.post('http://localhost:3000/sendmail',this.contact).then(res=>{
             if (res.status ==200) {
                 this.$toasted.info('Message sent !')
                 this.contact = {

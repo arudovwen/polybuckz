@@ -1,52 +1,66 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
 
+import Auth from "@okta/okta-vue";
 
+Vue.use(Auth, {
+  client_id: "0oa13czi4oDYSai7U4x7",
+  client_secret:'1GCw8vQdPatXz07NhwRu2TGAQBNBjlcyxoPUGQw_',
+  issuer: `https://dev-940310.okta.com/oauth2/default`,
+  redirectUri: window.location.origin + "/login/callback",
+  scopes: ["openid", "profile", "email"],
+  pkce: true,
+});
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
  
   {
-    path: '/blog',
-    name: 'Blog',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Blog.vue')
+    path: "/blog",
+    name: "Blog",
+
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Blog.vue"),
   },
   {
-    path: '/admin',
-    name: 'Dashboard',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/admin.vue'),
-    meta:{
-      typeAdmin:true
-    }
+    path: "/admin",
+    name: "Dashboard",
+
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/admin.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
-  {
-    path: '/auth/login',
-    name: 'Auth',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Auth.vue'),
-    
-  }
-]
+  { path: "/login/callback", component: Auth.handleCallback() },
+ 
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+const onAuthRequired = async (from, to, next) => {
+  if (
+    from.matched.some((record) => record.meta.requiresAuth) &&
+    !(await Vue.prototype.$auth.isAuthenticated())
+  ) {
+    // Navigate to custom login page
+   
+    next({ path: "/" });
+  } else {
+    next();
+  }
+};
+
+router.beforeEach(onAuthRequired);
+export default router;

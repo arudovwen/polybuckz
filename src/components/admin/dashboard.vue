@@ -141,23 +141,7 @@
         </b-tab>
       </b-tabs>
     </b-card>
-    <b-container>
-      <h4>Gallery Image</h4>
-      <b-row>
-        <b-col cols="12" class="text-left">
-          <b-button size="sm" v-b-modal.newimage class="mb-4"
-            ><b-icon icon="plus-circle-fill"></b-icon> Add image</b-button
-          >
-          <b-table :items="items" responsive :fields="fields">
-            <template v-slot:cell(-)="data">
-              <div>
-                <b-icon icon="trash" @click="remove(data.item.id)"></b-icon>
-              </div>
-            </template>
-          </b-table>
-        </b-col>
-      </b-row>
-    </b-container>
+
   </div>
 </template>
 
@@ -198,7 +182,7 @@ export default {
   },
   methods: {
     getImages() {
-      this.axios.get("https://polybuckz-api.herokuapp.com/gallery").then((res) => {
+      this.axios.get("http://localhost:3000/gallery").then((res) => {
         if (res.status == 200) {
           this.items = res.data;
         }
@@ -206,7 +190,7 @@ export default {
     },
     postImages() {
       this.axios
-        .post("https://polybuckz-api.herokuapp.com/gallery", this.info)
+        .post("http://localhost:3000/gallery", this.info)
         .then((res) => {
           if (res.status == 201) {
             this.items.push(res.data);
@@ -225,7 +209,7 @@ export default {
     remove(id) {
       var col = confirm("Do you wish to delete?");
       if (col) {
-        this.axios.delete(`https://polybuckz-api.herokuapp.com/gallery/${id}`).then((res) => {
+        this.axios.delete(`http://localhost:3000/gallery/${id}`).then((res) => {
           if (res.status == 200) {
             this.getImages();
           }
@@ -234,7 +218,7 @@ export default {
     },
 
     getTeams() {
-      this.axios.get("https://polybuckz-api.herokuapp.com/team").then((res) => {
+      this.axios.get("http://localhost:3000/team").then((res) => {
         if (res.status == 200) {
           this.teams = res.data;
         }
@@ -242,7 +226,7 @@ export default {
     },
     postTeam() {
       this.axios
-        .post("https://polybuckz-api.herokuapp.com/team", this.teamInfo)
+        .post("http://localhost:3000/team", this.teamInfo)
         .then((res) => {
           if (res.status == 201) {
             this.teams.push(res.data);
@@ -260,7 +244,7 @@ export default {
     removeTeam(id) {
       var col = confirm("Do you wish to delete?");
       if (col) {
-        this.axios.delete(`https://polybuckz-api.herokuapp.com/team/${id}`).then((res) => {
+        this.axios.delete(`http://localhost:3000/team/${id}`).then((res) => {
           if (res.status == 200) {
             this.getTeams();
           }

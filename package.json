@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@okta/jwt-verifier": "0.0.11",
+    "@okta/oidc-middleware": "^2.0.0",
+    "@okta/okta-vue": "^2.1.1",
     "axios": "^0.18.1",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.5.2",
@@ -16,6 +18,7 @@
     "btoa": "^1.2.1",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "faker": "^5.1.0",
     "mongoose": "^5.10.6",

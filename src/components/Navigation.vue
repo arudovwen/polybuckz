@@ -32,8 +32,8 @@
         class="animated"
         :class="{ slideInDown: show }"
       >
-        <a  v-if="$route.path == '/'" class="mr-sm-4" href="#about">About</a>
-         <a v-else class="mr-sm-4" href="/#about">About</a>
+        <a v-if="$route.path == '/'" class="mr-sm-4" href="#about">About</a>
+        <a v-else class="mr-sm-4" href="/#about">About</a>
         <a class="mr-sm-4" href="#team">Team</a>
 
         <a v-if="$route.path == '/'" href="#portfolio" class="mr-sm-4"
@@ -45,12 +45,14 @@
           Contact us
         </a>
         <a v-else class="mr-sm-4" href="/#contact"> Contact us </a>
-        <router-link to="/admin">
-          <b-button variant="mypry" size="sm">Log in</b-button></router-link
-        >
+       
+         <b-button v-if='authenticated' v-on:click='logout' variant="mypry" size="sm" id='logout-button'> Logout </b-button>
+    <b-button v-else v-on:click='login' variant="mypry" size="sm" id='login-button'> Login </b-button>
       </div>
     </div>
-   <div class="scroll shadow-sm" v-if="hideScroll"> <b-icon icon="arrow-bar-up" class="up-icon" @click="scrollUp"></b-icon></div>
+    <div class="scroll shadow-sm" v-if="hideScroll">
+      <b-icon icon="arrow-bar-up" class="up-icon" @click="scrollUp"></b-icon>
+    </div>
   </div>
 </template>
 
@@ -61,10 +63,13 @@ export default {
       show: true,
       scrollPos: 0,
       changeBg: false,
-      hideScroll:false
+      hideScroll: false,
+      authenticated: false,
+       claims: '',
     };
   },
   created() {
+    this.isAuthenticated();
     if (window.innerWidth < 600) {
       this.show = false;
     }
@@ -75,10 +80,27 @@ export default {
   },
   watch: {
     scrollPos: "toggleScroll",
+    $route: "isAuthenticated",
   },
   methods: {
-    scrollUp(){
-   window.scrollTo(0,0)
+    login () {
+      this.$auth.loginRedirect('/admin')
+    },
+     async setup () {
+      this.claims = await this.$auth.getUser()
+    },
+    async isAuthenticated() {
+      this.authenticated = await this.$auth.isAuthenticated();
+    },
+    async logout() {
+      await this.$auth.logout();
+      await this.isAuthenticated();
+
+      // Navigate back to home
+      this.$router.push({ path: "/" });
+    },
+    scrollUp() {
+      window.scrollTo(0, 0);
     },
     toggleMenu() {
       this.show = !this.show;
@@ -90,7 +112,7 @@ export default {
         this.changeBg = false;
       }
 
-       if (window.scrollY > window.innerHeight * .6) {
+      if (window.scrollY > window.innerHeight * 0.6) {
         this.hideScroll = true;
       } else {
         this.hideScroll = false;
@@ -105,20 +127,20 @@ export default {
   padding: 20px 0;
   position: relative;
 }
-.scroll{
+.scroll {
   position: fixed;
   bottom: 50px;
   right: 20px;
   background: #2c3e50;
-  opacity: .5;
-  padding:10px;
+  opacity: 0.5;
+  padding: 10px;
   border-radius: 5px;
   z-index: 999;
 }
-.up-icon{
-  color:#fff
+.up-icon {
+  color: #fff;
 }
-.scroll:hover{
+.scroll:hover {
   opacity: 1;
 }
 .img-two {

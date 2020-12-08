@@ -9,7 +9,7 @@ import "./assets/css/hamburger.css";
 
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import Toasted from 'vue-toasted';
- 
+import 'dotenv/config';
 
 Vue.use(Toasted, {
   duration: 3500,

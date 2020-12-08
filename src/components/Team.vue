@@ -54,14 +54,14 @@ export default {
   },
   methods: {
     getTeams() {
-      this.axios.get("https://polybuckz-api.herokuapp.com/team").then((res) => {
+      this.axios.get("http://localhost:3000/team").then((res) => {
         if (res.status == 200) {
           this.team = res.data;
         }
       });
     },
     check() {
-      this.axios.get("https://polybuckz-api.herokuapp.com").then((res) => {
+      this.axios.get("http://localhost:3000").then((res) => {
         if (res.status == 200) {
           res;
         }
